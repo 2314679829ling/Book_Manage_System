@@ -21,18 +21,18 @@ public class BorrowBookServlet extends HttpServlet {
 
             if (BookManager.borrowBook(userId, bookId)) {
                 response.setStatus(HttpServletResponse.SC_OK);
-                response.getWriter().write("Book borrowed successfully.");
+                response.getWriter().write("成功借阅");
             } else {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                response.getWriter().write("Failed to borrow book.");
+                response.getWriter().write("借阅失败");
             }
         } catch (NumberFormatException e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().write("Invalid book ID.");
+            response.getWriter().write("无效id");
             e.printStackTrace();
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write("An error occurred while processing your request.");
+            response.getWriter().write("请求时发生错误");
             e.printStackTrace();
         }
     }

@@ -10,8 +10,9 @@
         <input type="text" name="username" placeholder="用户名"><br>
         <input type="password" name="password" placeholder="密码"><br>
         <input type="submit" value="登录">
+        <div id="message"><%= request.getAttribute("errorMessage") != null ? request.getAttribute("errorMessage") : "" %></div>
     </form>
-    <div id="message"><%= request.getAttribute("errorMessage") != null ? request.getAttribute("errorMessage") : "" %></div>
+
 </div>
 <script>
     function check() {

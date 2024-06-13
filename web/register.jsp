@@ -9,11 +9,11 @@
 <div class="yyh">
 <form action="register.jsp" method="post" onsubmit="return check()">
     <input type="text" name="username" placeholder="用户名"><br>
-    <input type="password" name="password" placeholder="密码"><br>
+    <input type="password" name="password" placeholder="密码 密码需要大于5位"><br>
     <input type="password" name="password2" placeholder="确认密码"><br>
     <input type="submit" value="注册">
-</form>
-</div>>
+
+
     <script>
         //检查正确性
         function check() {
@@ -43,10 +43,12 @@
             out.println("<p>注册成功</p>");
             out.println("<a href='login.jsp'>立即登录</a>");
         } else {
-            out.println("<p>注册失败</p>");
+            out.println("<p>注册失败 密码需要大于5位</p>");
         }
     }
 
 %>
+</form>
+</div>
 </body>
 </html>

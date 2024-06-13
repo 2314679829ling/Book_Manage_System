@@ -6,14 +6,14 @@
     <meta charset="UTF-8">
     <title>用户借阅记录</title>
     <link href="static/css/user_page.css" rel="stylesheet">
+    <link href="static/css/user_page.css" rel="stylesheet">
 </head>
 <body>
-<div class="borrow">
-    <a href="borrow.jsp" id="borrow">借书</a>
-    <a href="" id="admin">管理员入口</a>
-</div>
-<div class="container">
 
+<div class="container">
+    <div class="borrow">
+        <a href="borrow.jsp" id="borrow">借书</a>
+    </div>
     <%
         //通过session获得username 防止用户直接访问
         String userName = (String)session.getAttribute("username");
@@ -45,22 +45,45 @@
 
                     out.println("<h2><u>" + username + "的借阅记录</u></h2>");
                     out.println("<p>您已借阅" + borrowCount + "本书</p>");
-                    for (BorrowRecord record : borrowRecords) {
-                        out.println("<div class='record' id='record-" + record.getRecordId() + "'>");
-                        out.println("<p>记录ID: " + record.getRecordId() + "</p>");
-                        out.println("<p>书籍ID: " + record.getBookId() + "</p>");
-                        out.println("<p>借阅日期: " + record.getBorrowDate() + "</p>");
 
+
+                    out.println("<summary><h3>未归还的书籍：</h3></summary>");
+                    out.println("<div class='record-list'>");
+
+                    for (BorrowRecord record : borrowRecords) {
                         if (record.getReturnDate() == null) {
+                            out.println("<div class='record' id='record-" + record.getRecordId() + "'>");
+                            out.println("<p>记录ID: " + record.getRecordId() + "</p>");
+                            out.println("<p>书籍ID: " + record.getBookId() + "</p>");
+                            out.println("<p>借阅日期: " + record.getBorrowDate() + "</p>");
+
                             int days = (int) ((System.currentTimeMillis() - record.getBorrowDate().getTime()) / (1000 * 60 * 60 * 24));
                             out.println("<p>归还日期: <span id='return-date-" + record.getRecordId() + "'>" + "已借阅" + days + "天" + "未归还" + "</span></p>");
                             out.println("<button class='return-btn' onclick='returnBook(" + record.getRecordId() + ", " + record.getBookId() + ");'>归还书籍</button>");
-                        } else {
-                            out.println("<p>归还日期: <span id='return-date-" + record.getRecordId() + "'>" + record.getReturnDate() + "</span></p>");
+                            out.println("</div>");
                         }
-                        out.println("</div>");
-                        out.println("<hr>");
                     }
+
+                    out.println("</div>");
+
+
+                    out.println("<details>");
+                    out.println("<summary><h3>已归还的书籍：</h3></summary>");
+                    out.println("<div class='record-list'>");
+
+                    for (BorrowRecord record : borrowRecords) {
+                        if (record.getReturnDate() != null) {
+                            out.println("<div class='record' id='record-" + record.getRecordId() + "'>");
+                            out.println("<p>记录ID: " + record.getRecordId() + "</p>");
+                            out.println("<p>书籍ID: " + record.getBookId() + "</p>");
+                            out.println("<p>借阅日期: " + record.getBorrowDate() + "</p>");
+                            out.println("<p>归还日期: <span id='return-date-" + record.getRecordId() + "'>" + record.getReturnDate() + "</span></p>");
+                            out.println("</div>");
+                        }
+                    }
+
+                    out.println("</div>");
+                    out.println("</details>");
                 } else {
                     out.println("<p>找不到该用户名的用户。</p>");
                 }
@@ -80,9 +103,10 @@
     %>
 </div>
 
-//归还书籍
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+    //归还书籍
     function returnBook(recordId, bookId) {
         if (confirm("确定要归还这本书吗？")) {
             $.ajax({

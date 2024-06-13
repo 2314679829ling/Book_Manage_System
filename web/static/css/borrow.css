@@ -1,5 +1,71 @@
-.book{
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 20px;
+}
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+button, input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-decoration: none;
+    cursor: pointer;
+    margin: 10px 0;
+}
+button a {
+    color: white;
+    text-decoration: none;
+}
+h1, h2 {
+    color: #333;
+}
+.book {
+    border: 1px solid #ddd;
+    padding: 15px;
     margin: 10px;
-    border: 2px solid #041f3f;
-    flex-flow: wrap;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+}
+.book p {
+    margin: 5px 0;
+}
+details {
+    margin-top: 20px;
+}
+.book-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.book {
+    flex: 1 1 calc(50% - 40px);
+    box-sizing: border-box;
+}
+.borrow-btn, .return-btn, .delete-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+.delete-btn {
+    background-color: #f44336;
+}
+#admin-panel {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    border-radius: 5px;
 }

@@ -9,13 +9,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>图书管理系统</title>
+    <title>藏书借阅系统</title>
     <link rel="stylesheet" href="./static/css/index.css">
 </head>
 <body>
 <div class="container">
     <div class="header">
-        <h1>图书管理系统</h1>
+        <h1>藏书借阅系统</h1>
     </div>
     <div class="content">
         <div>现可借书有 <%= BookManager.getAvailableBooksCount() %> 本</div>

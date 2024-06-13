@@ -50,7 +50,7 @@ public class Register_user {
 
     // 验证用户名是否合法
     private boolean isValidUsername(String username) {
-        return username != null && username.length() >= 3 && username.length() <= 50;
+        return username != null && username.length() >= 1 && username.length() <= 50;
     }
 
     // 验证密码是否合法
