@@ -18,7 +18,7 @@
         <h1>图书管理系统</h1>
     </div>
     <div class="content">
-        <div>现存书有 <%= BookManager.getAvailableBooksCount() %> 本</div>
+        <div>现可借书有 <%= BookManager.getAvailableBooksCount() %> 本</div>
         <a href="./login.jsp">登录</a>
         <a href="./register.jsp">注册</a>
     </div>

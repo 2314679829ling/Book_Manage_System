@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BookManager {
 
@@ -16,7 +18,7 @@ public class BookManager {
         ResultSet rs = null;
 
         try {
-            conn = openConnection();
+            conn = DatabaseConnection.connect();
             stmt = conn.createStatement();
             String sql = "SELECT COUNT(*) AS available_count FROM books WHERE status='available'";
             rs = stmt.executeQuery(sql);
@@ -32,17 +34,46 @@ public class BookManager {
 
         return availableBooks;
     }
+    public static List<BorrowRecord> getUserBorrowRecords(int userId) {
+        List<BorrowRecord> borrowRecords = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DatabaseConnection.connect();
+            String queryBorrowRecordsSql = "SELECT record_id, book_id, borrow_date, return_date FROM borrow_records WHERE user_id = ?";
+            stmt = conn.prepareStatement(queryBorrowRecordsSql);
+            stmt.setInt(1, userId);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                BorrowRecord record = new BorrowRecord();
+                record.setRecordId(rs.getInt("record_id"));
+                record.setBookId(rs.getInt("book_id"));
+                record.setBorrowDate(rs.getDate("borrow_date"));
+                record.setReturnDate(rs.getDate("return_date"));
+                borrowRecords.add(record);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeResources(rs, stmt, conn);
+        }
+
+        return borrowRecords;
+    }
 
     // 借书
     public static boolean borrowBook(int userId, int bookId) {
         Connection conn = null;
         PreparedStatement stmt = null;
-
+        System.out.println("bookid in borrowBook"+bookId);
         try {
-            conn = openConnection();
+            conn = DatabaseConnection.connect();
 
             // 更新书籍状态
-            String updateBookStatusSql = "UPDATE books SET status='borrowed' WHERE book_id = ? AND status='available'";
+            String updateBookStatusSql = "UPDATE books SET status='borrowed' WHERE id = ? AND status='available'";
             stmt = conn.prepareStatement(updateBookStatusSql);
             stmt.setInt(1, bookId);
             int rowsUpdated = stmt.executeUpdate();
@@ -79,10 +110,10 @@ public class BookManager {
         PreparedStatement stmt = null;
 
         try {
-            conn = openConnection();
+            conn = DatabaseConnection.connect();
 
             // 更新书籍状态
-            String updateBookStatusSql = "UPDATE books SET status='available' WHERE book_id = ? AND status='borrowed'";
+            String updateBookStatusSql = "UPDATE books SET status='available',borrow_count=borrow_count+1 WHERE id = ? AND status='borrowed'";
             stmt = conn.prepareStatement(updateBookStatusSql);
             stmt.setInt(1, bookId);
             int rowsUpdated = stmt.executeUpdate();
@@ -119,7 +150,7 @@ public class BookManager {
         PreparedStatement stmt = null;
 
         try {
-            conn = openConnection();
+            conn = DatabaseConnection.connect();
 
             String insertBookSql = "INSERT INTO books (title, author, publish_date, status) VALUES (?, ?, ?, 'available')";
             stmt = conn.prepareStatement(insertBookSql);
@@ -143,9 +174,9 @@ public class BookManager {
         PreparedStatement stmt = null;
 
         try {
-            conn = openConnection();
+            conn = DatabaseConnection.connect();
 
-            String deleteBookSql = "DELETE FROM books WHERE book_id = ?";
+            String deleteBookSql = "DELETE FROM books WHERE id = ?";
             stmt = conn.prepareStatement(deleteBookSql);
             stmt.setInt(1, bookId);
             stmt.executeUpdate();
@@ -157,15 +188,6 @@ public class BookManager {
         } finally {
             closeResources(null, stmt, conn);
         }
-    }
-
-    // 打开数据库连接
-    private static Connection openConnection() throws SQLException {
-        Connection conn = DatabaseConnection.connect();
-        if (conn == null || conn.isClosed()) {
-            throw new SQLException("无法连接到数据库。");
-        }
-        return conn;
     }
 
     // 关闭资源
@@ -187,7 +209,7 @@ public class BookManager {
         }
 
         if (conn != null) {
-            DatabaseConnection.disconnect();
+            DatabaseConnection.disconnect(conn);
         }
     }
 }

@@ -30,7 +30,7 @@ public class Register_user {
             String sql = "INSERT INTO users (username, password, is_admin, borrow_count) VALUES (?, ?, 0, 0)";
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, username);
-            pstmt.setString(2, password); // 注意：实际应用中应对密码进行加密
+            pstmt.setString(2, password);
 
             int rowsInserted = pstmt.executeUpdate();
             return rowsInserted > 0;
@@ -41,7 +41,7 @@ public class Register_user {
         } finally {
             try {
                 if (pstmt != null) pstmt.close();
-                DatabaseConnection.disconnect();
+                DatabaseConnection.disconnect(conn);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -68,4 +68,6 @@ public class Register_user {
             }
         }
     }
+
+
 }

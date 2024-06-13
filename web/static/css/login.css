@@ -14,9 +14,13 @@ html, body {
     align-items: center;
     position: relative;
 }
-
+#message {
+    margin-top: 20px;
+    color: #d9534f;
+    text-align: center;
+}
 form {
-    background: rgba(255, 255, 255, 0.8); /* 半透明背景 */
+    background: rgba(255, 255, 255, 0.8);
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);

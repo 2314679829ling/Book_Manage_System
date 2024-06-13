@@ -1,6 +1,5 @@
 package yyh_db_class;
 
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,6 +8,7 @@ import java.sql.SQLException;
 public class UserManager {
     // 验证用户
     public boolean authenticateUser(String username, String password) {
+
         boolean isAuthenticated = false;
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -36,7 +36,7 @@ public class UserManager {
             try {
                 if (rs != null) rs.close();
                 if (pstmt != null) pstmt.close();
-                DatabaseConnection.disconnect();
+                if (conn != null && !conn.isClosed()) conn.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }

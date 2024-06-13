@@ -33,11 +33,12 @@
 
 
 <%
-    //注册的JSP 代码
+    //注册的JSP 注册完跳回登陆界面
     if(request.getMethod().equalsIgnoreCase("POST")) {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         Register_user register_user = new Register_user();
+
         if (register_user.register(username, password)) {
             out.println("<p>注册成功</p>");
             out.println("<a href='login.jsp'>立即登录</a>");

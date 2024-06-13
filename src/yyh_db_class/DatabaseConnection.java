@@ -7,13 +7,9 @@ import java.sql.SQLException;
 public class DatabaseConnection {
     private static final String URL = "jdbc:mysql://localhost:3306/book_manage?user=root&password=123456&useUnicode=true&characterEncoding=gbk&serverTimezone=Asia/Shanghai";
 
-    private static Connection connection = null;
-
     // 连接数据库
     public static Connection connect() {
-        if (connection != null) {
-            return connection;
-        }
+        Connection connection = null;
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver"); // 加载JDBC驱动
@@ -31,11 +27,10 @@ public class DatabaseConnection {
     }
 
     // 断开数据库连接
-    public static void disconnect() {
+    public static void disconnect(Connection connection) {
         if (connection != null) {
             try {
                 connection.close();
-                connection = null;
                 System.out.println("数据库连接已断开！");
             } catch (SQLException e) {
                 System.err.println("关闭数据库连接失败:");

@@ -10,14 +10,14 @@ public class Main {
     public static void main(String[] args) throws SQLException {
 
         Connection connection = DatabaseConnection.connect();
-        String sql = "SELECT COUNT(*) AS available_count FROM books WHERE status='available'";
+        String sql = "SELECT id FROM users WHERE username = 'yyh' AND password = '22008056'";
         ResultSet rs=   connection.createStatement().executeQuery(sql);
         int availableBooks = 0;
         if (rs.next()) {
-            availableBooks = rs.getInt("available_count");
+            availableBooks = rs.getInt("id");
         }
 
         System.out.println(availableBooks);
-        DatabaseConnection.disconnect();
+        DatabaseConnection.disconnect(connection);
     }
 }
