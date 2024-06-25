@@ -38,7 +38,7 @@
                 rs = pstmt.executeQuery();
 
                 if (rs.next()) {
-                    out.println("<h2>书籍信息：</h2>");
+                    out.println("<b>书籍信息：</b>");
                     out.println("<div class='book' id='book" + rs.getInt("id") + "'>");
                     out.println("<p>书籍ID: " + rs.getInt("id") + "</p>");
                     out.println("<p>书名: " + rs.getString("title") + "</p>");
@@ -61,7 +61,7 @@
         }
     %>
     <details>
-        <summary><h2>所有可借阅的书籍：</h2></summary>
+        <summary><b>所有可借阅的书籍：</b></summary>
         <div class="book-list">
             <%
                 Connection conn = null;
@@ -99,7 +99,7 @@
         </div>
     </details>
     <details>
-        <summary><h2>已借阅的书籍：</h2></summary>
+        <summary><b>已借阅的书籍：</b></summary>
         <div class="book-list">
             <%
                 try {

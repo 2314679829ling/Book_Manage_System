@@ -47,11 +47,12 @@
                     out.println("<p>您已借阅" + borrowCount + "本书</p>");
 
 
-                    out.println("<summary><h3>未归还的书籍：</h3></summary>");
+                    out.println("<b>未归还的书籍：</b>");
                     out.println("<div class='record-list'>");
-
+                    boolean have_borrowed = false;
                     for (BorrowRecord record : borrowRecords) {
                         if (record.getReturnDate() == null) {
+                            have_borrowed=true;
                             out.println("<div class='record' id='record-" + record.getRecordId() + "'>");
                             out.println("<p>记录ID: " + record.getRecordId() + "</p>");
                             out.println("<p>书籍ID: " + record.getBookId() + "</p>");
@@ -63,12 +64,14 @@
                             out.println("</div>");
                         }
                     }
-
+                    if(!have_borrowed){
+                        out.println("<p>您目前没有未归还的书籍</p>");
+                    }
                     out.println("</div>");
 
 
                     out.println("<details>");
-                    out.println("<summary><h3>已归还的书籍：</h3></summary>");
+                    out.println("<summary>已归还的书籍：</summary>");
                     out.println("<div class='record-list'>");
 
                     for (BorrowRecord record : borrowRecords) {
